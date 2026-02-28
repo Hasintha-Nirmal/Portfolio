@@ -2,13 +2,15 @@ import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
+import Skills from './components/Skills';
+import Languages from './components/Languages';
 import Projects from './components/Projects';
+import Activity from './components/Activity';
 import Footer from './components/Footer';
 import './components/components.css';
 
 function App() {
   useEffect(() => {
-    // Reveal text effect on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -31,7 +33,10 @@ function App() {
       <main>
         <Hero />
         <About />
+        <Skills />
+        <Languages />
         <Projects />
+        <Activity />
       </main>
       
       <Footer />

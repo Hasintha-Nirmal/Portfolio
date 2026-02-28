@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { fetchProfile } from '../utils/github';
 
 const About = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://api.github.com/users/Hasintha-Nirmal')
-      .then(res => res.json())
+    fetchProfile()
       .then(data => {
         setProfile(data);
         setLoading(false);
@@ -55,8 +55,8 @@ const About = () => {
             ) : profile ? (
               <div className="stats-grid">
                 <div className="stat-card">
-                  <span className="stat-num text-gradient">{profile.public_repos}</span>
-                  <span className="stat-label">Repositories</span>
+                  <span className="stat-num text-gradient">{profile.public_repos + (profile.total_private_repos || 0)}</span>
+                  <span className="stat-label">Total Repos</span>
                 </div>
                 <div className="stat-card">
                   <span className="stat-num text-gradient">{profile.followers}</span>
@@ -72,6 +72,18 @@ const About = () => {
                   </span>
                   <span className="stat-label">Dev Since</span>
                 </div>
+                {profile.total_private_repos > 0 && (
+                  <div className="stat-card">
+                    <span className="stat-num text-gradient">{profile.total_private_repos}</span>
+                    <span className="stat-label">Private Repos</span>
+                  </div>
+                )}
+                {profile.disk_usage && (
+                  <div className="stat-card">
+                    <span className="stat-num text-gradient">{(profile.disk_usage / 1024).toFixed(0)}MB</span>
+                    <span className="stat-label">Disk Usage</span>
+                  </div>
+                )}
               </div>
             ) : (
               <p>Stats unavailable</p>
